@@ -2068,7 +2068,7 @@ class MusicBot(discord.Client):
         """
 
         if not new_volume:
-            return Response(self.str.get('cmd-volume-current', 'Current volume: `%s%%`') % int(player.volume * 100), reply=True, delete_after=20)
+            return Response(self.str.get('cmd-volume-current', 'Current volume: `%s%%`') % int(player.volume * 700), reply=True, delete_after=20)
 
         relative = False
         if new_volume[0] in '+-':
@@ -2083,12 +2083,12 @@ class MusicBot(discord.Client):
         vol_change = None
         if relative:
             vol_change = new_volume
-            new_volume += (player.volume * 100)
+            new_volume += (player.volume * 200)
 
-        old_volume = int(player.volume * 100)
+        old_volume = int(player.volume * 200)
 
-        if 0 < new_volume <= 100:
-            player.volume = new_volume / 100.0
+        if 0 < new_volume <= 200:
+            player.volume = new_volume / 500
 
             return Response(self.str.get('cmd-volume-reply', 'Updated volume from **%d** to **%d**') % (old_volume, new_volume), reply=True, delete_after=20)
 
@@ -2096,10 +2096,10 @@ class MusicBot(discord.Client):
             if relative:
                 raise exceptions.CommandError(
                     self.str.get('cmd-volume-unreasonable-relative', 'Unreasonable volume change provided: {}{:+} -> {}%.  Provide a change between {} and {:+}.').format(
-                        old_volume, vol_change, old_volume + vol_change, 1 - old_volume, 100 - old_volume), expire_in=20)
+                        old_volume, vol_change, old_volume + vol_change, 1 - old_volume, 200 - old_volume), expire_in=20)
             else:
                 raise exceptions.CommandError(
-                    self.str.get('cmd-volume-unreasonable-absolute', 'Unreasonable volume provided: {}%. Provide a value between 1 and 100.').format(new_volume), expire_in=20)
+                    self.str.get('cmd-volume-unreasonable-absolute', 'Unreasonable volume provided: {}%. Provide a value between 1 and 200.').format(new_volume), expire_in=20)
 
     @owner_only
     async def cmd_option(self, player, option, value):
